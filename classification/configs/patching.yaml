@@ -1,0 +1,76 @@
+# Patching Configuration for M4D-SAR-OilSpill Dataset
+# Specifies all patch size, stride, and overlap combinations for experiments
+
+patch_configs:
+  # Baseline: 256×256 patches with 50% overlap
+  ps256_overlap50:
+    patch_size: 256
+    stride: 128
+    overlap: 0.5
+    window_type: hann
+    pad_mode: reflect
+    skip_border: false
+    description: "Baseline configuration — existing setup"
+
+  # New: 384×384 intermediate compromise
+  ps384_overlap50:
+    patch_size: 384
+    stride: 192
+    overlap: 0.5
+    window_type: hann
+    pad_mode: reflect
+    skip_border: false
+    description: "Intermediate patch size — balance between context and samples"
+
+  # New: 512×512 main candidate for better Oil vs Look-alike discrimination
+  ps512_overlap50:
+    patch_size: 512
+    stride: 256
+    overlap: 0.5
+    window_type: hann
+    pad_mode: reflect
+    skip_border: false
+    description: "Larger patches with 50% overlap — targets object context"
+
+  # Dense inference: 512×512 with 75% overlap for high-quality reconstruction
+  ps512_overlap75:
+    patch_size: 512
+    stride: 128
+    overlap: 0.75
+    window_type: hann
+    pad_mode: reflect
+    skip_border: false
+    description: "Dense overlap for inference — better boundary quality"
+
+# Window function types for reconstruction
+window_types:
+  hann:
+    description: "Smooth Hann window — reduces edge artifacts"
+    formula: "hann(n) via scipy.signal.hann"
+  uniform:
+    description: "Simple mean — no windowing"
+    formula: "ones(patch_size, patch_size)"
+
+# Padding modes for border patches (when skip_border=false)
+padding_modes:
+  reflect:
+    description: "Reflect across edge (default) — good for SAR imagery"
+    numpy_mode: "reflect"
+  edge:
+    description: "Repeat edge values — preserves mean at boundaries"
+    numpy_mode: "edge"
+  constant:
+    description: "Pad with zeros — can introduce artifacts"
+    numpy_mode: "constant"
+
+# Dataset paths (relative to the project root)
+dataset_paths:
+  m4d_raw_train: "../dataset_analysis/Dataset/oil-spill-detection-dataset/Oil Spill Detection Dataset/train"
+  m4d_raw_test: "../dataset_analysis/Dataset/oil-spill-detection-dataset/Oil Spill Detection Dataset/test"
+  output_base: "./patches"
+
+# Logging and validation
+validation:
+  reversibility_tolerance: 2.0  # RMSE tolerance for reconstruction
+  edge_margin: 50  # Pixels to analyze at edges
+  verify_all_configs: true

@@ -1,0 +1,24 @@
+# Stage 2 Training Pipeline Dependencies
+# Python 3.10+
+
+# Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Data & Computing
+numpy>=1.24.0
+pandas>=2.0.0
+pyarrow>=12.0.0  # Parquet patch indices and validation prediction exports
+scikit-learn>=1.3.0
+
+# Visualization & Logging
+tensorboard>=2.13.0
+tqdm>=4.65.0
+
+# Configuration
+PyYAML>=6.0
+
+# Optional but recommended
+matplotlib>=3.7.0  # For plotting results
+seaborn>=0.12.0    # For statistical visualization

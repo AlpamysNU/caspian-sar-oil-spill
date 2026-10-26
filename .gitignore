@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.npy
+*.npz
+*.pt
+*.pth
+*.log
+
+# data and outputs that must not be published
+oil-spill-detection-dataset/
+Dataset/
+results/
+stage2_results/
+sentinel1/
+dataset_analysis_output/
+figures/

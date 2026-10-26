@@ -1,0 +1,43 @@
+# Experiment 2: EfficientNet-B2 + Hybrid Loss (Focal + GP + CE)
+# Purpose: Improved classification with SAR-specific Guided Precision Loss
+# Expected training time: 2-3 hours on V100 GPU
+# Literature: Basit et al. 2022 (+11% improvement over baseline)
+
+experiment_name: "exp2_effnet_b2_focal_gp"
+run_name: "exp2_effnet_b2_focal_gp"
+
+# Model & Loss
+model_name: "effnet_b2"
+loss_type: "hybrid"
+
+# Training hyperparameters
+epochs: 100
+batch_size: 256
+lr: 8e-4
+seed: 42
+num_workers: 4
+pin_memory: true
+
+# Focal Loss parameters
+focal_gamma: 2.0
+focal_alpha: 0.25
+
+# GP Loss (Guided Precision) parameters
+gp_margin: 0.1
+
+# Hybrid Loss weights
+focal_weight: 1.0
+gp_weight: 0.1
+ce_weight: 1.0
+
+# Directories (relative to the project root)
+parquet_path: "../../OTHER_OIL_SPILL_DATASETS/OIL_SPILL_Segmentation/MULTICLASSIFICATION/stage2_m4d_ovr/m4d_stage2_ovr_index.parquet"
+patches_dir: "../../OTHER_OIL_SPILL_DATASETS/OIL_SPILL_Segmentation/MULTICLASSIFICATION/stage2_m4d_ovr/patches_npy"
+weights_dir: "results/exp2_effnet_b2_focal_gp/"
+runs_dir: "results/exp2_effnet_b2_focal_gp/runs"
+
+# Calibration
+calibrate_after: true
+
+# System
+device: "cuda"
